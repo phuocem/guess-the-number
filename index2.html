@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="index2.css" />
+  </head>
+  <body>
+    <div class="khunglon">
+      <div class="khunghw pulse">
+        <div class="khung">
+          <div class="giua2">
+            <div class="giua">
+              <div><h1>TRÒ CHƠI ĐOÁN SỐ</h1></div>
+            </div>
+
+            <div class="khungreset">
+              <div class="seach">
+                <input placeholder="Hãy đoán một số" id="inputNum" />
+              </div>
+            </div>
+            <div class="btn"><button id="bntResetGame">reset game</button></div>
+            <div>
+              <div class="mauchu"><p id="lbResult">Kết quả</p></div>
+            </div>
+            <div><p id="lives">số lần chơi còn: 5</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        new Audio("Sakura-Girl-Daisy-chosic.com_.mp3").play();
+      });
+
+      let lives = document.getElementById("lives");
+      let bntResetGame = document.getElementById("bntResetGame");
+      let inputNum = document.getElementById("inputNum");
+      let lbResult = document.getElementById("lbResult");
+      let live = 5;
+      let randomeNumber = Math.floor(Math.random() * 101);
+      console.log("số mới bạn cần đoán là:" + randomeNumber);
+      function newGame() {
+        randomeNumber = Math.floor(Math.random() * 101);
+        live = 5;
+        console.log("số mới bạn cần đoán là:" + randomeNumber);
+        lives.innerText = "số lần chơi còn: " + live;
+        lbResult.innerText = "Kết quả";
+        inputNum.disabled = false;
+      }
+
+      bntResetGame.onclick = () => {
+        newGame();
+      };
+
+      inputNum.addEventListener("input", () => {
+        inputNum.value = inputNum.value.replace(/[^0-9]/g, "");
+      });
+
+      inputNum.onkeypress = (key) => {
+        if (live == 0 || inputNum.disabled) {
+          return;
+        }
+        if (key.code == "Enter") {
+          let guessNum = parseInt(inputNum.value);
+          console.log(guessNum);
+          inputNum.value = "";
+
+          if (guessNum > randomeNumber) {
+            new Audio("am-thanh-tra-loi-sai-wav-www.tiengdong.com.wav").play();
+            lbResult.innerText = "Số bạn nhập lớn hơn số đã cho";
+          } else if (guessNum < randomeNumber) {
+            new Audio("am-thanh-tra-loi-sai-wav-www.tiengdong.com.wav").play();
+            lbResult.innerText = "Số bạn nhập nhỏ hơn số đã cho";
+          } else {
+            new Audio("tieng-vo-tay-tra-loi-dung-www.tiengdong.com.mp3").play();
+            lbResult.innerText = "Chúc Mừng";
+            lives.innerText = "Chúc Mừng";
+            inputNum.disabled = true;
+          }
+          live--;
+          lives.innerText = "số lần chơi còn: " + live;
+          if (live == 0) {
+            lbResult.innerText =
+              "Bạn đã hết lượt chơi vui lòng ấn reset. " + randomeNumber;
+          }
+        }
+      };
+    </script>
+  </body>
+</html>
